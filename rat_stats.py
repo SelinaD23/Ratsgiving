@@ -74,6 +74,11 @@ SPACES = 4 * 6
 
 
 def print_breeds():
+    """
+    Prints the breed selection menu
+
+    :return: None
+    """
     print("SELECT YOUR BREED: (STAT VALUES: 1 - Lowest, 12 - Highest)")
     print(BANNER)
 
