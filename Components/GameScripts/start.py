@@ -6,10 +6,14 @@ Starts the game
 Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
-from Components.assets import *
-from Components.display import reset_screen
-from Components.Statistics.enemies import starting_locations
-from Components.Statistics.rat_stats import BREEDS, BREED_NUMS, print_breeds
+
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from assets import *
+from display import reset_screen
+from Statistics.enemies import starting_locations
+from Statistics.rat_stats import BREEDS, BREED_NUMS, print_breeds
 
 WELCOME = "Hello dearest Rat Adventurer. To begin your journey, please enter your name: "
 

@@ -6,7 +6,11 @@ End screens for Ratsgiving game
 Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
-from Components.assets import *
+
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from assets import *
 
 
 def end_screen():

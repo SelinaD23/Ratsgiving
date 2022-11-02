@@ -6,8 +6,11 @@ Handles the print of the display
 Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
-from os import system, name
-from Components.assets import *
+
+import sys
+from os import system, name, path
+sys.path.append(path.dirname(path.dirname(path.realpath(__file__))))
+from assets import *
 
 
 def reset_screen():

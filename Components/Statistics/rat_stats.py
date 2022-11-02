@@ -7,6 +7,8 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
+import sys
+sys.path.append('../Components')
 from random import randint
 from Components.assets import *
 
