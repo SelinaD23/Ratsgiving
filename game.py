@@ -40,17 +40,17 @@ def start():
         print("Welcome, Adventurer {}. May the rats be with you and Smooth Tony guide your way...".format(name))
         print_breeds()
 
-        breed = input("Please input your breed name or number: ").lower()
+        breed = input("Please input your breed name or number: ").lower().title()
 
         try:
             breed = BREED_NUMS[int(breed)]
         except ValueError:
             pass
 
-        while breed.title() not in BREEDS.keys():
+        while breed not in BREEDS.keys():
             print(SELECTION_ERROR)
             print_breeds()
-            breed = input("Please input your breed name: ").lower()
+            breed = input("Please input your breed name: ").lower().title()
             try:
                 breed = BREED_NUMS[int(breed)]
             except ValueError:
@@ -67,7 +67,8 @@ def start():
 
         reset_screen()
 
-    input("Hit ENTER to continue...")
+    print("Welcome to the Hazelwood Chateau, {} rat {}.\nWe hope you enjoy your stay.\n\n".format(breed, name))
+    input("Hit ENTER to start...")
     system('clear' if name == 'posix' else 'CLS')
 
     return name, breed
