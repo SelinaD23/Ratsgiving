@@ -218,22 +218,3 @@ def clear_map():
     for floor in LOCATIONS:
         for room in LOCATIONS[floor]:
             LOCATIONS[floor][room] = []
-
-
-def main():
-    enemy_stats_debug()
-    starting_locations()
-    print(LOCATIONS)
-    clear_map()
-    print("\n\n\n")
-    enemy_stats_debug()
-    starting_locations()
-    print(LOCATIONS)
-    clear_map()
-    print("\n\n\n")
-    enemy_stats_debug()
-    starting_locations()
-    print(LOCATIONS)
-
-
-main()
