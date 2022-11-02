@@ -7,13 +7,13 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
-from assets import *
-from start import start
 from importlib import reload
-from end_screen import end_screen
-from display import reset_screen
-import rat_stats
-import enemies
+from Components.assets import *
+from Components.GameScripts.start import start
+from Components.end_screen import end_screen
+from Components.display import reset_screen
+import Components.Statistics.rat_stats as rat_stats
+import Components.Statistics.enemies as enemies
 
 def main():
     play = True

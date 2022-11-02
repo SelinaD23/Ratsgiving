@@ -7,8 +7,8 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
-from assets import *
 from random import randint
+from Components.assets import *
 
 BREEDS = {
     "Standard": {
@@ -83,7 +83,7 @@ def print_breeds():
     print(BANNER)
 
     # Local variables to be used in loop
-    stats = ["Name", "Size", "Speed", "Vision", "Balance", "Hearing"]
+    stats = ["Breed", "Size", "Speed", "Vision", "Balance", "Hearing"]
     breeds = [["Standard [1]", "Rex [2]", "Satin [3]"],
               ["Dumbo [4]", "Tailless [5]", "Hairless [6]", "Bristle Coat [7]"]]
 

@@ -6,9 +6,10 @@ Starts the game
 Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
-from assets import *
-from display import reset_screen
-from rat_stats import BREEDS, BREED_NUMS, print_breeds
+from Components.assets import *
+from Components.display import reset_screen
+from Components.Statistics.enemies import starting_locations
+from Components.Statistics.rat_stats import BREEDS, BREED_NUMS, print_breeds
 
 WELCOME = "Hello dearest Rat Adventurer. To begin your journey, please enter your name: "
 
@@ -65,6 +66,8 @@ def start():
         confirm = True if confirm == 'y' else False
 
         reset_screen()
+
+    starting_locations()  # Sets up enemies for start
 
     print("Welcome to the Hazelwood Chateau, {} rat {}.\nWe hope you enjoy your stay.".format(breed, name))
     print(BANNER)

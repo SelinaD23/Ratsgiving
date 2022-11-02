@@ -6,8 +6,8 @@ Handles the print of the display
 Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
-from assets import *
 from os import system, name
+from Components.assets import *
 
 
 def reset_screen():
