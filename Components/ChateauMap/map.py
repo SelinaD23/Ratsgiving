@@ -46,8 +46,8 @@ class Room:
         return self.room
 
 class Floor:
-    def __init__(self):
-        self.stairs = None
+    def __init__(self, stair):
+        self.stairs = stair
 
 
 def first_floor():
@@ -86,6 +86,8 @@ def first_floor():
     servant.connection1, servant.connection2 = kitchen, laundry
     laundry.connection1 = servant
 
+    return entry
+
 
 def second_floor():
     """
@@ -112,6 +114,8 @@ def second_floor():
     bedroom.connection1, bedroom.connection2 = bathroom, stair
     theater.connection1 = stair
     game.connection1 = stair
+
+    return stair
 
 
 def third_floor():
@@ -140,6 +144,9 @@ def third_floor():
     hole.connection1 = stair
     office.connection1 = stair
 
+    return stair
 
-FIRST_FLOOR = first_floor()
-SECOND_FLOOR = second_floor()
+
+FIRST_FLOOR = Floor(first_floor())
+SECOND_FLOOR = Floor(second_floor())
+THIRD_FLOOR = Floor(third_floor())
