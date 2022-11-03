@@ -92,7 +92,7 @@ def print_breeds():
     # Printing out the breed menu
     for i in range(len(breeds)):
         for stat in stats:
-            if stat == "Name":
+            if stat == "Breed":
                 for breed in breeds[i]:
                     # This code was used for formatting
                     breed_str = " " * 4 + stat + ": " + breed

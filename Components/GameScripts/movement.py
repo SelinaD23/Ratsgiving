@@ -48,7 +48,7 @@ def fall(rat_balance):
 
     return bool fall
     """
-    return random() < rat_balance / 14
+    return random() > rat_balance / 14
 
 
 def seek(rat_vision, rat_hearing):

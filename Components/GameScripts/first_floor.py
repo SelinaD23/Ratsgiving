@@ -12,7 +12,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from copy import deepcopy
 from assets import BANNER, MAP_ART
-from ChateauMap.map import FIRST_FLOOR, LOCATIONS
+from ChateauMap.map import FIRST_FLOOR, LOCATIONS, load_map
 
 FIRST_LABEL = "HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
 FIRST = {
@@ -99,6 +99,8 @@ def first_floor():
 
 
 ### USED TO TEST LOCATION LABEL PLACEMENTS ###
+
+load_map()
 for room in LOCATIONS[1]:
     if room == "Entryway":
         discover_entryway()

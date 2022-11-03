@@ -85,6 +85,11 @@ class Floor:
 
 
 def load_map():
+    """
+    Loads the LOCATIONS dictionary with proper items
+
+    :return: None
+    """
     for floor in LOCATIONS:
         for room in LOCATIONS[floor]:
             LOCATIONS[floor][room]["occupants"] = []

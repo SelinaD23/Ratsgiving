@@ -72,7 +72,7 @@ ENEMIES = {
 }
 
 BUTLER_LOCATIONS = {
-    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom", "Servant Room"],
+    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom", "Servant Room", "Laundry Room"],
     2: ["Stair Landing","Theater Room", "Game Room"],
     3: ["Stair Landing", "Office"]
 }
@@ -90,7 +90,7 @@ FAMILY_LOCATIONS = {
     3: ["Stair Landing", "Master Bedroom", "Ensuite Bathroom", "Office"]
 }
 MAID_LOCATIONS = {
-    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom"],
+    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom", "Servant Room", "Laundry Room"],
     2: ["Stair Landing", "Ms. Hazelwood's Bedroom", "Theater Room", "Game Room", "Bathroom"],
     3: ["Stair Landing", "Master Bedroom", "Ensuite Bathroom", "Office", "Rat Hole"]
 }
@@ -217,4 +217,4 @@ def clear_map():
 
     for floor in LOCATIONS:
         for room in LOCATIONS[floor]:
-            LOCATIONS[floor][room] = []
+            LOCATIONS[floor][room]["occupants"] = []
