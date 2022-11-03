@@ -9,28 +9,114 @@ https://github.com/SelinaD23
 
 LOCATIONS = {
     1: {
-        "Kitchen": [],
-        "Living Room": [],
-        "Dining Room": [],
-        "Hallway": [],
-        "Bathroom": [],
-        "Servant Room": [],
-        "Laundry Room": [],
-        "Entryway": []  # Stairs location
+        "Kitchen": {
+            "found": False,
+            "occupants": [],
+            "start": [242],
+            "loot": []
+        },
+        "Living Room": {
+            "found": False,
+            "occupants": [],
+            "start": [512, 519],
+            "loot": []
+        },
+        "Dining Room": {
+            "found": False,
+            "occupants": [],
+            "start": [435, 484],
+            "loot": []
+        },
+        "Hallway": {
+            "found": False,
+            "occupants": [],
+            "start": [370],
+            "loot": []
+        },
+        "Bathroom": {
+            "found": False,
+            "occupants": [],
+            "start": [219],
+            "loot": []
+        },
+        "Servant Room": {
+            "found": False,
+            "occupants": [],
+            "start": [183, 232],
+            "loot": []
+        },
+        "Laundry Room": {
+            "found": False,
+            "occupants": [],
+            "start": [64, 102],
+            "loot": []
+        },
+        "Entryway": {
+            "found": False,
+            "occupants": [],
+            "loot": []
+        },  # Stairs location
     },
     2: {
-        "Stair Landing": [],
-        "Bathroom": [],
-        "Ms. Hazelwood's Bedroom": [],
-        "Theater Room": [],
-        "Game Room": []
+        "Stair Landing": {
+            "found": False,
+            "occupants": [],
+            "loot": []
+        },
+        "Bathroom": {
+            "found": False,
+            "occupants": [],
+            "start": [109],
+            "loot": []
+        },
+        "Ms. Hazelwood's Bedroom": {
+            "found": False,
+            "occupants": [],
+            "start": [122, 126, 174],
+            "loot": []
+        },
+        "Theater Room": {
+            "found": False,
+            "occupants": [],
+            "start": [416, 465],
+            "loot": []
+        },
+        "Game Room": {
+            "found": False,
+            "occupants": [],
+            "start": [400, 448],
+            "loot": []
+        }
     },
     3: {
-        "Stair Landing": [],
-        "Master Bedroom": [],
-        "Ensuite Bathroom": [],
-        "Office": [],
-        "Rat Hole": []
+        "Stair Landing": {
+            "found": False,
+            "occupants": [],
+            "loot": []
+        },
+        "Master Bedroom": {
+            "found": False,
+            "occupants": [],
+            "start": [278, 315],
+            "loot": []
+        },
+        "Ensuite Bathroom": {
+            "found": False,
+            "occupants": [],
+            "start": [99, 136],
+            "loot": []
+        },
+        "Office": {
+            "found": False,
+            "occupants": [],
+            "start": [88],
+            "loot": []
+        },
+        "Rat Hole": {
+            "found": False,
+            "occupants": [],
+            "loot": []
+        }
     }
 }
 
@@ -53,15 +139,20 @@ class Floor:
 def first_floor():
     """
     Creates the first floor map
-                          Laundry Room
-                               |
-                          Servant Room
-                               |
-             Bathroom      Kitchen
-                 |             |
-    Entryway - Hallway  -  Dining Room
-       |         |             |
-       ---  Living Room  -------
+                            _______
+                           |Laundry|
+                           | Room  |
+     ___x__________________|__/ \__|__________
+    |       |          |  Servant  |          |
+    |   E   | Bathroom |   Room   \  Kitchen  |
+    |   n   |____/_____|___________|___/ \____|
+    |   t   |                      |   D      |
+    |   r    /       Hallway        /  i  R   |
+    |   y   |__________/ \_________|   n  o   |
+    |   w   |                      |   i  o   |
+    |   a    /     Living Room      /  n  m   |
+    |   y   |                      |   g      |
+    |_______|______________________|__________|
     
     :return: Floor first_floor
     """
@@ -92,13 +183,19 @@ def first_floor():
 def second_floor():
     """
     Creates the second floor map
-               Theater Room 
-                    |            
-    Bathroom - Stair Landing  -  Game Room
-       |            |            
-       ---  Ms. Hazelwood's Bedroom 
+     _______ _________________________________
+    |       |          |                      |
+    |     L | Bathroom  /  Ms. Hazelwood's    |
+    |  S  a |          |        Room          |
+    |  t  n |____/_____|_____/_____           |
+    |  a  d                        |          |
+    |  i  i  ___________\___/______|__________|
+    |  r  n |             |                   |
+    |     g |    Game     |      Theater      |
+    |       |    Room     |       Room        |
+    |_______|_____________|___________________|
     
-    :return: Floor first_floor
+    :return: Floor second_floor
     """
 
     # Create the rooms
@@ -121,13 +218,20 @@ def second_floor():
 def third_floor():
     """
     Creates the third floor map
-      Rat Hole
-         |                   
-    Stair Landing - Master Bedroom
-         |                |            
-       Office      Ensuite Bathroom
+
+     ___o___ ______________________
+    |       |          |           |
+    |     L |  Office  |  Ensuite  |
+    |  S  a  /         |  Bathroom |
+    |  t  n |__________|_____/_____|
+    |  a  d |                      |          
+    |  i  i |                      |
+    |  r  n |       Master         |
+    |     g |       Bedroom        |
+    |       |                      |
+    |_______|______________________|
     
-    :return: Floor first_floor
+    :return: Floor third_floor
     """
 
     # Create the rooms
