@@ -11,20 +11,18 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from random import randint, choice
-from ChateauMap.map import LOCATIONS
+from ChateauMap.map import LOCATIONS, load_map
 
 ENEMIES = {
     "Mochi": {
         "Speed": randint(10, 12),
         "Vision": randint(10, 12), 
-        "Location": [],
-        "Description": ""
+        "Location": []
     },
     "Matcha": {
         "Speed": randint(10, 12),
         "Vision": randint(10, 12), 
-        "Location": [],
-        "Description": ""
+        "Location": []
     },
     "Maid Alexander": {
         "Speed": randint(8, 10),
@@ -113,7 +111,7 @@ def starting_locations():
                 floor = randint(1, 3)
 
             # Finds all empty rooms Maids can enter on the floor and picks random room
-            room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room] and room in MAID_LOCATIONS[floor]])
+            room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in MAID_LOCATIONS[floor]])
             # Assign maid to room
             assign_room(floor, room, character)
 
@@ -122,7 +120,7 @@ def starting_locations():
         elif "Chef" in character:
             # Chefs only walk around the first floor
             # Finds all empty rooms on the floor and picks random room
-            room = choice([room for room in LOCATIONS[1] if not LOCATIONS[1][room] and room in CHEF_LOCATIONS[1]])  
+            room = choice([room for room in LOCATIONS[1] if not LOCATIONS[1][room]["occupants"] and room in CHEF_LOCATIONS[1]])  
             # Assign chef to room
             assign_room(1, room, character)
 
@@ -133,7 +131,7 @@ def starting_locations():
             room = ""
             while not room:
                 try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room] and room in BUTLER_LOCATIONS[floor]])
+                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in BUTLER_LOCATIONS[floor]])
                 except IndexError:
                     # Picks the other floor for butler start
                     floor = randint(1, 3)
@@ -147,7 +145,7 @@ def starting_locations():
             room = ""
             while not room:
                 try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room] and room in FAMILY_LOCATIONS[floor]])
+                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in FAMILY_LOCATIONS[floor]])
                 except IndexError:
                     # Picks a new random floor for family member start
                     floor = randint(1, 3)
@@ -162,7 +160,7 @@ def starting_locations():
             room = ""
             while not room:
                 try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room] and room in CAT_LOCATIONS[floor]])
+                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in CAT_LOCATIONS[floor]])
                 except IndexError:
                     floor = 2
             # Assign cat to room
@@ -178,31 +176,33 @@ def assign_room(floor, room, person):
     """ 
     if not ENEMIES[person]["Location"]:  # If the person was nowhere previously
         ENEMIES[person]["Location"] = [floor, room]
-        LOCATIONS[floor][room].append(person)
+        LOCATIONS[floor][room]["occupants"].append(person)
     
     else:  # If person was in a room previously
-        LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]].pop(LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]].index(person))
+        occupant_index = LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]]["occupants"].index(person)
+        LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]]["occupants"].pop(occupant_index)
         ENEMIES[person]["Location"] = [floor, room]
-        LOCATIONS[floor][room].append(person)
+        LOCATIONS[floor][room]["occupants"].append(person)
 
 
-def enemy_stats_debug():
-    """
-    Prints the ENEMIES dictionary (used for debugging)
+### USED FOR DEBUGGING ###
+# def enemy_stats_debug():
+#     """
+#     Prints the ENEMIES dictionary (used for debugging)
 
-    :return: None
-    """
+#     :return: None
+#     """
 
-    # Local variables to be used in loop
-    stats = ["Name", "Speed", "Vision", "Location"]
+#     # Local variables to be used in loop
+#     stats = ["Name", "Speed", "Vision", "Location"]
 
-    # Printing out the ENEMIES dictionary
-    for character in ENEMIES:
-        for stat in stats:
-            if stat == "Name":
-                print("{}: {}".format(stat, character))
-            else:
-                print("{}: {}".format(stat, ENEMIES[character][stat]))
+#     # Printing out the ENEMIES dictionary
+#     for character in ENEMIES:
+#         for stat in stats:
+#             if stat == "Name":
+#                 print("{}: {}".format(stat, character))
+#             else:
+#                 print("{}: {}".format(stat, ENEMIES[character][stat]))
 
 
 def clear_map():

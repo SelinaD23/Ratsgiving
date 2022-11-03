@@ -7,115 +7,63 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
+from random import choice, randint
+
 LOCATIONS = {
     1: {
         "Kitchen": {
-            "found": False,
-            "occupants": [],
             "start": [242],
-            "loot": []
         },
         "Living Room": {
-            "found": False,
-            "occupants": [],
-            "start": [512, 519],
-            "loot": []
+            "start": [512, 519]
         },
         "Dining Room": {
-            "found": False,
-            "occupants": [],
-            "start": [435, 484],
-            "loot": []
+            "start": [435, 484]
         },
         "Hallway": {
-            "found": False,
-            "occupants": [],
-            "start": [370],
-            "loot": []
+            "start": [370]
         },
         "Bathroom": {
-            "found": False,
-            "occupants": [],
-            "start": [219],
-            "loot": []
+            "start": [219]
         },
         "Servant Room": {
-            "found": False,
-            "occupants": [],
-            "start": [183, 232],
-            "loot": []
+            "start": [183, 232]
         },
         "Laundry Room": {
-            "found": False,
-            "occupants": [],
-            "start": [64, 102],
-            "loot": []
+            "start": [64, 102]
         },
         "Entryway": {
-            "found": False,
-            "occupants": [],
-            "loot": []
         },  # Stairs location
     },
     2: {
         "Stair Landing": {
-            "found": False,
-            "occupants": [],
-            "loot": []
         },
         "Bathroom": {
-            "found": False,
-            "occupants": [],
-            "start": [109],
-            "loot": []
+            "start": [109]
         },
         "Ms. Hazelwood's Bedroom": {
-            "found": False,
-            "occupants": [],
-            "start": [122, 126, 174],
-            "loot": []
+            "start": [122, 126, 174]
         },
         "Theater Room": {
-            "found": False,
-            "occupants": [],
-            "start": [416, 465],
-            "loot": []
+            "start": [416, 465]
         },
         "Game Room": {
-            "found": False,
-            "occupants": [],
-            "start": [400, 448],
-            "loot": []
+            "start": [400, 448]
         }
     },
     3: {
         "Stair Landing": {
-            "found": False,
-            "occupants": [],
-            "loot": []
         },
         "Master Bedroom": {
-            "found": False,
-            "occupants": [],
-            "start": [278, 315],
-            "loot": []
+            "start": [278, 315]
         },
         "Ensuite Bathroom": {
-            "found": False,
-            "occupants": [],
-            "start": [99, 136],
-            "loot": []
+            "start": [99, 136]
         },
         "Office": {
-            "found": False,
-            "occupants": [],
-            "start": [88],
-            "loot": []
-        },
+            "start": [88]
+            },
         "Rat Hole": {
-            "found": False,
-            "occupants": [],
-            "loot": []
         }
     }
 }
@@ -134,6 +82,81 @@ class Room:
 class Floor:
     def __init__(self, stair):
         self.stairs = stair
+
+
+def load_map():
+    for floor in LOCATIONS:
+        for room in LOCATIONS[floor]:
+            LOCATIONS[floor][room]["occupants"] = []
+            LOCATIONS[floor][room]["found"] = False
+            LOCATIONS[floor][room]["loot"] = {
+                "stick": 0,
+                "seed": 0,
+                "cheese": 0,
+                "penny": 0,
+                "nickel": 0,
+                "dime": 0,
+                "quarter": 0
+            }
+
+
+def generate_loot():
+    """
+    Generates and fills the Chateau with loot
+
+    :return: None
+    """
+    loot = {
+        "stick": randint(1,10),
+        "seed": randint(1,20),
+        "cheese": randint(1,5),
+        "penny": randint(1,20),
+        "nickel": randint(1,10),
+        "dime": randint(1,10),
+        "quarter": randint(1,5)
+    }
+
+    total_loot = []
+
+    for item in loot:
+        for _ in range(loot[item]):
+            total_loot.append(item)
+
+    total = len(total_loot)
+
+    # Puts the loot into random rooms
+    for _ in range(total):
+        floor = randint(1, 3)
+        room = choice(list(LOCATIONS[floor]))
+        while room == "Rat Hole":
+            room = choice(list(LOCATIONS[floor]))
+
+        loot_choice = total_loot.pop(total_loot.index(choice(total_loot)))
+        LOCATIONS[floor][room]["loot"][loot_choice] += 1
+        
+    ### Debugging ###
+    for floor in LOCATIONS:
+        for room in LOCATIONS[floor]:
+            if room == "Rat Hole":
+                continue
+
+            loot = ""
+            for item in LOCATIONS[floor][room]["loot"]:
+                
+
+                if LOCATIONS[floor][room]["loot"][item] == 1:
+                    loot += "1 {}, ".format(item)
+
+                elif LOCATIONS[floor][room]["loot"][item] > 0:
+                    if item == "penny":
+                        term = "pennies"
+                    else:
+                        term = item + "s"
+
+                    loot += "{} {}, ".format(LOCATIONS[floor][room]["loot"][item], term)
+
+            loot = loot[:-2]  # Remove comma and space for formatting
+            print("Floor {}, Room {}, has the following loot: {}".format(floor, room, loot))
 
 
 def first_floor():

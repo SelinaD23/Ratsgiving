@@ -12,6 +12,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from assets import *
 from display import reset_screen
+from ChateauMap.map import generate_loot, load_map
 from Statistics.enemies import starting_locations
 from Statistics.rat_stats import BREEDS, BREED_NUMS, print_breeds
 
@@ -71,7 +72,9 @@ def start():
 
         reset_screen()
 
+    load_map()  # Loads the map
     starting_locations()  # Sets up enemies for start
+    generate_loot()  # Generates the loot
 
     print("Welcome to the Hazelwood Chateau, {} rat {}.\nWe hope you enjoy your stay.".format(breed, name))
     print(BANNER)
