@@ -7,10 +7,11 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
+import os
 import sys
-sys.path.append('../Components')
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from random import randint
-from Components.assets import *
+from assets import *
 
 BREEDS = {
     "Standard": {
@@ -63,6 +64,40 @@ BREEDS = {
         "Hearing": randint(5, 8)
     }
 }
+RAT_FRIENDS = {
+    "Dumbo Rat Talon": {
+        "Found": False,
+        "Size": randint(9, 12),
+        "Speed": randint(1, 4),
+        "Vision": randint(5, 8),
+        "Balance": randint(1, 4),
+        "Hearing": randint(9, 12)
+    },
+    "Hairless Rat Soron": {
+        "Found": False,
+        "Size": randint(1, 4),
+        "Speed": randint(9, 12),
+        "Vision": randint(5, 8),
+        "Balance": randint(1, 4),
+        "Hearing": randint(9, 12)
+    },
+    "Satin Rat Gemini": {
+        "Found": False,
+        "Size": randint(1, 4),
+        "Speed": randint(9, 12),
+        "Vision": randint(1, 4),
+        "Balance": randint(5, 8),
+        "Hearing": randint(5, 8)
+    },
+    "Tailless Rat Nellin": {
+        "Found": False,
+        "Size": randint(1, 4),
+        "Speed": randint(1, 4),
+        "Vision": randint(9, 12),
+        "Balance": randint(1, 4),
+        "Hearing": randint(9, 12)
+    }
+}
 BREED_NUMS = {
     1: "Standard",
     2: "Rex",
@@ -72,6 +107,7 @@ BREED_NUMS = {
     6: "Hairless",
     7: "Bristle Coat"
 }
+PLAYER_RAT = {}
 SPACES = 4 * 6
 
 

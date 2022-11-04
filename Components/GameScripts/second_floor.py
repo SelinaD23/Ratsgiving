@@ -10,12 +10,11 @@ https://github.com/SelinaD23
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-from copy import deepcopy
-from assets import BANNER, MAP_ART
-from ChateauMap.map import SECOND_FLOOR, LOCATIONS
-from GameScripts.first_floor import discover_room
+from assets import BANNER
+from ChateauMap.map import SECOND_FLOOR
+from ChateauMap.locations import LOCATIONS
 
-SECOND_LABEL = "HAZELWOOD CHATEAU - SECOND FLOOR - LOCATIONS DISCOVERED"
+SECOND_LABEL = "HAZELWOOD CHATEAU - SECOND FLOOR MAP"
 SECOND = {
 # SECOND will be used as a global dictionary - this will be edited to determine what has been found
     "map": list("""     _______ _________________________________
@@ -47,18 +46,6 @@ def discover_second_stairs():
     LOCATIONS[2][stairs]["found"] = True
 
 
-def reset_second():
-    """
-    Resets the second floor
-
-    :return: None
-    """
-    SECOND["map"] = deepcopy(MAP_ART["Second Empty"])
-
-    for room in LOCATIONS[2]:
-        LOCATIONS[2][room]["found"] = False
-
-
 def print_second():
     """
     Prints the second floor map
@@ -73,15 +60,20 @@ def print_second():
 
 
 def second_floor():
+    """
+    Code to run the first floor
+
+    :return: int floor - next floor number
+    """
     pass
 
 
 ### USED TO TEST LOCATION LABEL PLACEMENTS ###
-for room in LOCATIONS[2]:
-    if room == "Stair Landing":
-        discover_second_stairs()
-    else:
-        discover_room(room, SECOND, 2)
+# for room in LOCATIONS[2]:
+#     if room == "Stair Landing":
+#         discover_second_stairs()
+#     else:
+#         discover_room(room, SECOND, 2)
 
-    print_second()
-    reset_second()
+#     print_second()
+#     reset_second()

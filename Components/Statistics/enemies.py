@@ -10,8 +10,8 @@ https://github.com/SelinaD23
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-from random import randint, choice
-from ChateauMap.map import LOCATIONS, load_map
+from random import randint
+from ChateauMap.locations import LOCATIONS
 
 ENEMIES = {
     "Mochi": {
@@ -96,78 +96,6 @@ MAID_LOCATIONS = {
 }
 
 
-def starting_locations():
-    """
-    Puts all the enemies into the game
-
-    :return: None
-    """ 
-    maid = [0, 0, 0]
-    for character in ENEMIES:
-        if "Maid" in character:
-            # One maid on each floor to start
-            floor = randint(1, 3)
-            while maid[floor - 1]:
-                floor = randint(1, 3)
-
-            # Finds all empty rooms Maids can enter on the floor and picks random room
-            room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in MAID_LOCATIONS[floor]])
-            # Assign maid to room
-            assign_room(floor, room, character)
-
-            maid[floor - 1] = 1
-
-        elif "Chef" in character:
-            # Chefs only walk around the first floor
-            # Finds all empty rooms on the floor and picks random room
-            room = choice([room for room in LOCATIONS[1] if not LOCATIONS[1][room]["occupants"] and room in CHEF_LOCATIONS[1]])  
-            # Assign chef to room
-            assign_room(1, room, character)
-
-        elif "Butler" in character:
-            # Picks a random floor for butler start
-            floor = randint(2, 3)
-            # Finds all empty rooms on the floor and picks random room
-            room = ""
-            while not room:
-                try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in BUTLER_LOCATIONS[floor]])
-                except IndexError:
-                    # Picks the other floor for butler start
-                    floor = randint(1, 3)
-            # Assign butler to room
-            assign_room(floor, room, character)
-
-        elif "Hazelwood" in character:
-            # Picks a random floor for family member start
-            floor = randint(1, 3)
-            # Finds all empty rooms on the floor and picks random room
-            room = ""
-            while not room:
-                try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in FAMILY_LOCATIONS[floor]])
-                except IndexError:
-                    # Picks a new random floor for family member start
-                    floor = randint(1, 3)
-
-            # Assign family member to room
-            assign_room(floor, room, character)
-
-        else:
-            # Cats start on third floor unless third floor is full
-            # Finds all empty rooms on the floor and picks random room
-            floor = 3
-            room = ""
-            while not room:
-                try:
-                    room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["occupants"] and room in CAT_LOCATIONS[floor]])
-                except IndexError:
-                    floor = 2
-            # Assign cat to room
-            assign_room(floor, room, character)
-
-
-
 def assign_room(floor, room, person):
     """
     Moves the people from room to room 
@@ -203,18 +131,3 @@ def assign_room(floor, room, person):
 #                 print("{}: {}".format(stat, character))
 #             else:
 #                 print("{}: {}".format(stat, ENEMIES[character][stat]))
-
-
-def clear_map():
-    """
-    Removes all the enemies from the map
-
-    :return: None
-    """
-
-    for character in ENEMIES:
-        ENEMIES[character]["Location"] = ""
-
-    for floor in LOCATIONS:
-        for room in LOCATIONS[floor]:
-            LOCATIONS[floor][room]["occupants"] = []

@@ -10,12 +10,11 @@ https://github.com/SelinaD23
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-from copy import deepcopy
 from assets import BANNER, MAP_ART
-from ChateauMap.map import THIRD_FLOOR, LOCATIONS
-from GameScripts.first_floor import discover_room
+from ChateauMap.map import THIRD_FLOOR
+from ChateauMap.locations import LOCATIONS
 
-THIRD_LABEL = "HAZELWOOD CHATEAU - THIRD FLOOR - LOCATIONS DISCOVERED"
+THIRD_LABEL = "HAZELWOOD CHATEAU - THIRD FLOOR MAP"
 THIRD = {
 # THIRD will be used as a global dictionary - this will be edited to determine what has been found
     "map": list("""     ___?___ ______________________
@@ -58,18 +57,6 @@ def discover_rat_hole():
     LOCATIONS[3]["Rat Hole"]["found"] = True
 
 
-def reset_third():
-    """
-    Resets the third floor
-
-    :return: None
-    """
-    THIRD["map"] = deepcopy(MAP_ART["Third Empty"])
-
-    for room in LOCATIONS[3]:
-        LOCATIONS[3][room]["found"] = False
-
-
 def print_third():
     """
     Prints the third floor map
@@ -84,17 +71,22 @@ def print_third():
 
 
 def third_floor():
+    """
+    Code to run the third floor
+
+    :return: int floor - next floor number or string "Attic"
+    """
     pass
 
 
 ### USED TO TEST LOCATION LABEL PLACEMENTS ###
-for room in LOCATIONS[3]:
-    if room == "Stair Landing":
-        discover_third_stairs()
-    elif room == "Rat Hole":
-        discover_rat_hole()
-    else:
-        discover_room(room, THIRD, 3)
+# for room in LOCATIONS[3]:
+#     if room == "Stair Landing":
+#         discover_third_stairs()
+#     elif room == "Rat Hole":
+#         discover_rat_hole()
+#     else:
+#         discover_room(room, THIRD, 3)
 
-    print_third()
-    reset_third()
+#     print_third()
+#     reset_third()

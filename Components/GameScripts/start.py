@@ -12,9 +12,8 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from assets import *
 from display import reset_screen
-from ChateauMap.map import generate_loot, load_map
-from Statistics.enemies import starting_locations
-from Statistics.rat_stats import BREEDS, BREED_NUMS, print_breeds
+from GameScripts.first_floor_text import load_story1
+from Statistics.rat_stats import PLAYER_RAT, BREEDS, BREED_NUMS, print_breeds
 
 WELCOME = "Hello dearest Rat Adventurer. To begin your journey, please enter your name: "
 
@@ -23,7 +22,7 @@ def start():
     """
     Starts the game by getting the player's name and rat breed choice
 
-    :return: str name, str breed
+    :return: None
     """
     reset_screen()
 
@@ -33,6 +32,7 @@ def start():
         print("    ERROR: Name cannot be empty")
         name = input("Please enter your name: ")
 
+    PLAYER_RAT["name"] = name
     reset_screen()
     confirm = False
 
@@ -64,21 +64,20 @@ def start():
         print("You have chosen the breed: {}".format(breed.upper()))
         confirm = input("Is this your final choice [Y/N]? ").lower()
 
-        while confirm not in "yn":
+        while confirm not in "yn" and confirm != "yes" and confirm != "no":
             print(SELECTION_ERROR)
             print("You have chosen the breed: {}".format(breed.upper()))
             confirm = input("Is this your final choice [Y/N]? ").lower()
-        confirm = True if confirm == 'y' else False
+        confirm = True if confirm == 'y' or confirm == "yes" else False
 
         reset_screen()
 
-    load_map()  # Loads the map
-    starting_locations()  # Sets up enemies for start
-    generate_loot()  # Generates the loot
+    PLAYER_RAT["breed"] = breed
+    PLAYER_RAT["stats"] = BREEDS[breed]
+
+    load_story1()
 
     print("Welcome to the Hazelwood Chateau, {} rat {}.\nWe hope you enjoy your stay.".format(breed, name))
     print(BANNER)
     print(RAT)
     input("Hit ENTER to start...")
-
-    return name, breed

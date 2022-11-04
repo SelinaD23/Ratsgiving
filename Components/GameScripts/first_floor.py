@@ -11,8 +11,11 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from copy import deepcopy
-from assets import BANNER, MAP_ART
-from ChateauMap.map import FIRST_FLOOR, LOCATIONS, load_map
+from assets import BANNER
+from display import reset_screen
+from ChateauMap.map import FIRST_FLOOR
+from ChateauMap.locations import LOCATIONS
+from Statistics.rat_stats import PLAYER_RAT
 
 FIRST_LABEL = "HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
 FIRST = {
@@ -69,18 +72,6 @@ def discover_entryway():
     LOCATIONS[1][entryway]["found"] = True
 
 
-def reset_first():
-    """
-    Resets the first floor
-
-    :return: None
-    """
-    FIRST["map"] = deepcopy(MAP_ART["First Empty"])
-
-    for room in LOCATIONS[1]:
-        LOCATIONS[1][room]["found"] = False
-
-
 def print_first():
     """
     Prints the first floor map
@@ -88,24 +79,42 @@ def print_first():
     :return: None
     """
     print(BANNER, FIRST_LABEL, BANNER, ''.join(FIRST["map"]), BANNER, sep='\n')
-    print("Unlocked Rooms:")
-    for room in LOCATIONS[1]:
-        if LOCATIONS[1][room]["found"]:
-            print('    ', room)
 
 
 def first_floor():
-    pass
+    """
+    Code to run the first floor
+
+    :return: int floor - next floor number
+    """
+    room = "Entryway"
+
+    while room != "Second Floor":
+        reset_screen()
+        if room == "Entryway":
+            if LOCATIONS[1][room]["found"]:  # If entryway was already found
+                pass
+            else:
+                print("    It's a dark and spooky night as Rat {} wakes up from a deep".format(PLAYER_RAT["name"]),
+                "slumber within the walls of the Robinhold Chateau. The thunder booms shake the",
+                "walls as {} realizes they are not where they are supposed to be. It's".format(PLAYER_RAT["name"]),
+                "Ratsgiving for ratness sakes! They should be in the attic with the rest",
+                "of their rat family eating rat food.")
+                print("    Scrambling onto their paws, the rat looked around trying to remember",
+                "where they were and how to get back to the attic. Unfortunately, {}".format(PLAYER_RAT["name"]),
+                "has never been great at navigating ")
+                
+
+    return 2  # Rat goes up to floor two
 
 
 ### USED TO TEST LOCATION LABEL PLACEMENTS ###
+# reset_map()
+# for room in LOCATIONS[1]:
+#     if room == "Entryway":
+#         discover_entryway()
+#     else:
+#         discover_room(room, FIRST, 1)
 
-load_map()
-for room in LOCATIONS[1]:
-    if room == "Entryway":
-        discover_entryway()
-    else:
-        discover_room(room, FIRST, 1)
-
-    print_first()
-    reset_first()
+#     print_first()
+#     reset_first()
