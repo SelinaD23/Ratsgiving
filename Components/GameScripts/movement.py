@@ -10,6 +10,7 @@ https://github.com/SelinaD23
 from random import random
 
 
+
 def hide(rat_size, enemy_vision):
     """
     Determines if the rat player can escape from the enemy

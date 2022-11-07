@@ -17,14 +17,14 @@ from ChateauMap.locations import LOCATIONS
 THIRD_LABEL = "HAZELWOOD CHATEAU - THIRD FLOOR MAP"
 THIRD = {
 # THIRD will be used as a global dictionary - this will be edited to determine what has been found
-    "map": list("""     ___?___ ______________________
+    "map": list("""     _______ ______________________
     |       |          |           |
     |       |          |           |
     |        /         |           |
     |       |__________|_____/_____|
     |       |                      |
     |       |                      |
-    |       |                      |
+    |        /                      |
     |       |                      |
     |       |                      |
     |_______|______________________|""")
@@ -52,7 +52,7 @@ def discover_rat_hole():
 
     :return: None
     """
-    THIRD["map"][8] = "o"
+    THIRD["map"][33] = "o"
 
     LOCATIONS[3]["Rat Hole"]["found"] = True
 

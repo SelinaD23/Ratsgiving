@@ -7,6 +7,7 @@ Programmed by: Selina Ding
 https://github.com/SelinaD23
 """
 
+
 class Room:
     def __init__(self, room):
         self.room = room
@@ -18,9 +19,35 @@ class Room:
     def __repr__(self):
         return self.room
 
+    def next_room(self):
+        next = []
+        if self.connection1 is not None:
+            next.append(self.connection1.room)
+        if self.connection2 is not None:
+            next.append(self.connection2.room)
+        if self.connection3 is not None:
+            next.append(self.connection3.room)
+        if self.connection4 is not None:
+            next.append(self.connection4.room)
+        return next
+
+
 class Floor:
-    def __init__(self, stair):
-        self.stairs = stair
+    def __init__(self, room):
+        self.room = room
+
+    def next_room(self):
+        return self.room.next_room()
+
+    def move(self, room):
+        if self.room.connection1.room == room:
+            return self.room.connection1
+        elif self.room.connection2.room == room:
+            return self.room.connection2
+        elif self.room.connection3.room == room:
+            return self.room.connection3
+        else:
+            return self.room.connection4
 
 
 def first_floor():
@@ -106,14 +133,14 @@ def third_floor():
     """
     Creates the third floor map
 
-     ___o___ ______________________
+     _______ ____________________o_
     |       |          |           |
     |     L |  Office  |  Ensuite  |
     |  S  a  /         |  Bathroom |
     |  t  n |__________|_____/_____|
     |  a  d |                      |          
     |  i  i |                      |
-    |  r  n |       Master         |
+    |  r  n  /      Master         |
     |     g |       Bedroom        |
     |       |                      |
     |_______|______________________|
@@ -129,10 +156,10 @@ def third_floor():
     office = Room("Office")
 
     # Link the rooms up
-    stair.connection1, stair.connection2, stair.connection3 = hole, bedroom, office
-    bathroom.connection1 = bedroom
+    stair.connection1, stair.connection2 = bedroom, office
+    bathroom.connection1, bathroom.connection2 = bedroom, hole
     bedroom.connection1, bedroom.connection2 = bathroom, stair
-    hole.connection1 = stair
+    hole.connection1 = bathroom
     office.connection1 = stair
 
     return stair

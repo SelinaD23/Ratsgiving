@@ -24,6 +24,16 @@ ENEMIES = {
         "Vision": randint(10, 12), 
         "Location": []
     },
+    "Chef Kimberly": {
+        "Speed": randint(6, 8),
+        "Vision": randint(8, 10), 
+        "Location": []
+    },
+    "Chef Jemma": {
+        "Speed": randint(6, 8),
+        "Vision": randint(6, 8), 
+        "Location": []
+    },
     "Maid Alexander": {
         "Speed": randint(8, 10),
         "Vision": randint(6, 8), 
@@ -42,16 +52,6 @@ ENEMIES = {
     "Butler Apoorva": {
         "Speed": randint(6, 8),
         "Vision": randint(1, 6), 
-        "Location": []
-    },
-    "Chef Kimberly": {
-        "Speed": randint(6, 8),
-        "Vision": randint(8, 10), 
-        "Location": []
-    },
-    "Chef Jemma": {
-        "Speed": randint(6, 8),
-        "Vision": randint(6, 8), 
         "Location": []
     },
     "Mrs. Hazelwood": {
@@ -82,7 +82,7 @@ CAT_LOCATIONS = {
     3: ["Stair Landing", "Master Bedroom", "Office", "Rat Hole"]
 }
 CHEF_LOCATIONS = {
-    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom", "Servant Room"]
+    1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Bathroom", "Servant Room"]
 }
 FAMILY_LOCATIONS = {
     1: ["Kitchen", "Living Room", "Dining Room", "Hallway", "Entryway", "Bathroom"],

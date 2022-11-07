@@ -11,7 +11,6 @@ from importlib import reload
 from Components.assets import *
 from Components.GameScripts.start import start
 from Components.end_screen import end_screen, determine_ending
-from Components.display import reset_screen
 from Components.GameScripts.reset_game import reset_map
 from Components.GameScripts.first_floor import first_floor
 from Components.GameScripts.second_floor import second_floor

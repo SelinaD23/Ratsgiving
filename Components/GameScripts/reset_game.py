@@ -49,7 +49,6 @@ def reset_map():
     load_rats()     # Places rat friends
     generate_loot() # Generates loot
 
-
 def reset_first():
     """
     Resets the first floor

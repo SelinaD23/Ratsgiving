@@ -12,7 +12,6 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from assets import *
 from display import reset_screen
-from GameScripts.first_floor_text import load_story1
 from Statistics.rat_stats import PLAYER_RAT, BREEDS, BREED_NUMS, print_breeds
 
 WELCOME = "Hello dearest Rat Adventurer. To begin your journey, please enter your name: "
@@ -74,8 +73,6 @@ def start():
 
     PLAYER_RAT["breed"] = breed
     PLAYER_RAT["stats"] = BREEDS[breed]
-
-    load_story1()
 
     print("Welcome to the Hazelwood Chateau, {} rat {}.\nWe hope you enjoy your stay.".format(breed, name))
     print(BANNER)

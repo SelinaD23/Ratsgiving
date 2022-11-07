@@ -16,6 +16,7 @@ from display import reset_screen
 from ChateauMap.map import FIRST_FLOOR
 from ChateauMap.locations import LOCATIONS
 from Statistics.rat_stats import PLAYER_RAT
+from GameScripts.movement import *
 
 FIRST_LABEL = "HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
 FIRST = {
@@ -95,18 +96,68 @@ def first_floor():
             if LOCATIONS[1][room]["found"]:  # If entryway was already found
                 pass
             else:
-                print("    It's a dark and spooky night as Rat {} wakes up from a deep".format(PLAYER_RAT["name"]),
-                "slumber within the walls of the Robinhold Chateau. The thunder booms shake the",
-                "walls as {} realizes they are not where they are supposed to be. It's".format(PLAYER_RAT["name"]),
-                "Ratsgiving for ratness sakes! They should be in the attic with the rest",
-                "of their rat family eating rat food.")
-                print("    Scrambling onto their paws, the rat looked around trying to remember",
-                "where they were and how to get back to the attic. Unfortunately, {}".format(PLAYER_RAT["name"]),
-                "has never been great at navigating ")
+                ### START OF GAME EXPOSITION AND GOALS ###
+                print("    It's a dark and spooky night as Rat {} wakes up from a deep slumber".format(PLAYER_RAT["name"]))
+                print("within the walls of the Hazelwood Chateau. The thunder booms shake the")
+                print("beams as {} realizes they are not where they are supposed to be. It's".format(PLAYER_RAT["name"]))
+                print("Ratsgiving for ratness sakes! They should be in the attic with the rest")
+                print("of their rat family eating rat food.")
+                print("    Scrambling onto their paws, the rat looked around trying to remember")
+                print("where they were and how to get back to the attic. Unfortunately, {}".format(PLAYER_RAT["name"]))
+                print("has never been great at navigating the large chateau and is drawing a blank.")
+                print("All they remember is the only way to make it to the attic is through the rat")
+                print("hole located somewhere on the third floor.")
+                print("    {} realizes they should also stop to look for things for the".format(PLAYER_RAT["name"]))
+                print("Ratsgiving table since they will be showing up for dinner too late. Maybe")
+                print("the chateau will have hidden food and offerings for {} to find? In".format(PLAYER_RAT["name"]))
+                print("any case, {} will need to avoid the people and cats living in the".format(PLAYER_RAT["name"]))
+                print("chateau if they want to make it to dinner safe. Perhaps some friends might")
+                print("also be around to bring to the family?")
+                print(BANNER)
+                print("YOUR MISSION:")
+                print("    - Gather at least 5 loot items to be allowed to join the Ratsgiving dinner")
+                print("    - Find and bring at least 1 rat friend to the Ratsgiving celebration")
+                print("    - Get back to the attic without dying and without your rat friend dying")
+                print(BANNER)
+                input("Hit ENTER to proceed into the Chateau's Entryway...")
+                reset_screen()
+                next = FIRST_FLOOR.next_room
+                discover_entryway()
+                print("    Peering out from the hole in the wall into the Entryway of the")
+                print("Chateau, the chandler hanging from the ceiling glimmers bright overhead.")
+                print("Cautiously stepping forward, {} looks around.".format(PLAYER_RAT["name"]))
+                
+                if "Maid Alexander" in LOCATIONS[1][room]["occupants"]:
+                    print("    Maid Alexander stood in the entryway, tiding up the entry console and")
+                    print("table. He looks quite focused on his job.")
+                elif "Maid Selina" in LOCATIONS[1][room]["occupants"]:
+                    print("    Maid Selina is polishing the mirror hanging on one of the walls in the")
+                    print("entryway. She has a duster next to her as well.")
+                elif "Maid Sebastian" in LOCATIONS[1][room]["occupants"]:
+                    print("    Maid Sebastian has a plethora of oddly shaped objects in their arms.")
+                    print("They look as if they working on reorganizing the entry table.")
+                elif "Butler Apoorva" in LOCATIONS[1][room]["occupants"]:
+                    print("    Butler Apoorva is waiting in the entryway for... something. {}".format(PLAYER_RAT["name"]))
+                    print("does not know what. She is standing pretty stiffly near a wall.")
+                elif "Mr. Hazelwood" in LOCATIONS[1][room]["occupants"]:
+                    print("    Mr. Hazelwood rushes in with a wet umbrella. He looks annoyed")
+                    print("and in a bit of a hurry.")
+                elif "Mrs. Hazelwood" in LOCATIONS[1][room]["occupants"]:
+                    print("    Mrs. Hazelwood takes off her heels and hangs her coat up on the coat")
+                    print("rack. She drops her keys on to the entry table.")
+                elif "Ms. Hazelwood" in LOCATIONS[1][room]["occupants"]:
+                    print("    Little Ms. Hazelwood is sat on the floor of the entryway, fighting")
+                    print("to get her boots off. Her cheeks are flushed from the cold.")
+                else:
+                    print(LOCATIONS[1][room]["occupants"])
+
+                input("Hit ENTER to proceed into the Chateau's Entryway...")
+                
+
+                ### ENTRYWAY DESCRIPTION AND ACTIONS ###
                 
 
     return 2  # Rat goes up to floor two
-
 
 ### USED TO TEST LOCATION LABEL PLACEMENTS ###
 # reset_map()

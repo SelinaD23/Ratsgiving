@@ -83,25 +83,25 @@ MAP_ART = {
     |     g |    Game     |      Theater      |
     |       |    Room     |       Room        |
     |_______|_____________|___________________|""",
-    "Third Empty": list("""     ___?___ ______________________
+    "Third Empty": list("""     _______ ______________________
     |       |          |           |
     |       |          |           |
     |        /         |           |
     |       |__________|_____/_____|
     |       |                      |
     |       |                      |
-    |       |                      |
+    |        /                      |
     |       |                      |
     |       |                      |
     |_______|______________________|"""), 
-    "Third Full": """     ___o___ ______________________
+    "Third Full": """     _______ ____________________o_
     |       |          |           |
     |     L |  Office  |  Ensuite  |
     |  S  a  /         |  Bathroom |
     |  t  n |__________|_____/_____|
     |  a  d |                      |
     |  i  i |                      |
-    |  r  n |       Master         |
+    |  r  n  /       Master        |
     |     g |       Bedroom        |
     |       |                      |
     |_______|______________________|"""
@@ -109,7 +109,7 @@ MAP_ART = {
 
 
 ### USED TO DETERMINE WHERE LOCATIONS LABELS ARE ###
-# floor = "Second Full"
+# floor = "Third Full"
 # for index in range(len(MAP_ART[floor])):
 #     if MAP_ART[floor][index].isalpha():
 #         print(index, MAP_ART[floor][index])
