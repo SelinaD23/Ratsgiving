@@ -107,7 +107,17 @@ BREED_NUMS = {
     6: "Hairless",
     7: "Bristle Coat"
 }
-PLAYER_RAT = {}
+PLAYER_RAT = {
+    "loot": {
+        "stick": 0,
+        "seed": 0,
+        "cheese": 0,
+        "penny": 0,
+        "nickel": 0,
+        "dime": 0,
+        "quarter": 0
+    }
+}
 SPACES = 4 * 6
 
 

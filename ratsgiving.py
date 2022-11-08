@@ -12,9 +12,7 @@ from Components.assets import *
 from Components.GameScripts.start import start
 from Components.end_screen import end_screen, determine_ending
 from Components.GameScripts.reset_game import reset_map
-from Components.GameScripts.first_floor import first_floor
-from Components.GameScripts.second_floor import second_floor
-from Components.GameScripts.third_floor import third_floor
+from Components.GameScripts.chateau import first_floor, second_floor, third_floor
 import Components.Statistics.rat_stats as rat_stats
 import Components.Statistics.enemies as enemies
 

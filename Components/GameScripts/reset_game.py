@@ -15,9 +15,7 @@ from assets import *
 from copy import deepcopy
 from random import randint, choice
 from ChateauMap.locations import LOCATIONS
-from GameScripts.first_floor import FIRST
-from GameScripts.second_floor import SECOND
-from GameScripts.third_floor import THIRD
+from GameScripts.chateau import FIRST, SECOND, THIRD
 from Statistics.rat_stats import RAT_FRIENDS
 
 

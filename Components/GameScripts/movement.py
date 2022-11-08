@@ -11,7 +11,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from assets import *
-from random import random
+from random import random, randint
 
 
 def room_actions(room, occupied):
@@ -46,11 +46,41 @@ def room_actions(room, occupied):
     return int(move)
 
 
-def inventory():
+def find(total):
+    """
+    Looks for loot around the space
+
+    :return: int num of loot found
+    """
+    return randint(0, total)
+
+
+def inventory(inv):
     """
     Prints out the user inventory
+
+    :param inv: dict Loot
+    :return: None
     """
-    pass
+    print("YOUR INVENTORY:")
+    empty = 0
+    for loot in inv:
+        if inv[loot] == 1:
+            print("    1 {}".format(loot))
+
+        elif inv[loot] > 0:
+            if loot == "penny":
+                term = "pennies"
+            else:
+                term = loot + "s"
+
+            print("    {} {}".format(inv[loot], term))
+
+        else:
+            empty += 1
+
+    if empty == len(inv):
+        print("\x1B[3m" + "    empty" + "\x1B[0m")
 
 
 def hide(rat_size, enemy_vision):
