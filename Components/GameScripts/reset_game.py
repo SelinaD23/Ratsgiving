@@ -30,6 +30,7 @@ def reset_map():
     for floor in LOCATIONS:
         for room in LOCATIONS[floor]:
             LOCATIONS[floor][room]["occupants"] = []
+            LOCATIONS[floor][room]["rats"] = []
             LOCATIONS[floor][room]["found"] = False
             LOCATIONS[floor][room]["loot"] = {
                 "stick": 0,
@@ -179,6 +180,9 @@ def load_rats():
     """ 
     for rat in RAT_FRIENDS:
         floor = randint(1, 3)
+        room = choice([room for room in LOCATIONS[floor] if not LOCATIONS[floor][room]["rats"]])
+        LOCATIONS[floor][room]["rats"].append(rat)
+
 
 def generate_loot():
     """

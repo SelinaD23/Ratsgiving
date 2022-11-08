@@ -15,7 +15,7 @@ from assets import BANNER
 from display import reset_screen
 from ChateauMap.map import FIRST_FLOOR
 from ChateauMap.locations import LOCATIONS
-from Statistics.rat_stats import PLAYER_RAT
+from Statistics.rat_stats import PLAYER_RAT, RAT_FRIENDS
 from GameScripts.movement import *
 
 FIRST_LABEL = "HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
@@ -82,6 +82,18 @@ def print_first():
     print(BANNER, FIRST_LABEL, BANNER, ''.join(FIRST["map"]), BANNER, sep='\n')
 
 
+### USED TO TEST LOCATION LABEL PLACEMENTS ###
+# reset_map()
+# for room in LOCATIONS[1]:
+#     if room == "Entryway":
+#         discover_entryway()
+#     else:
+#         discover_room(room, FIRST, 1)
+
+#     print_first()
+#     reset_first()
+
+
 def first_floor():
     """
     Code to run the first floor
@@ -92,6 +104,8 @@ def first_floor():
 
     while room != "Second Floor":
         reset_screen()
+        next = FIRST_FLOOR.next_room
+        occupied = True
         if room == "Entryway":
             if LOCATIONS[1][room]["found"]:  # If entryway was already found
                 pass
@@ -114,15 +128,16 @@ def first_floor():
                 print("chateau if they want to make it to dinner safe. Perhaps some friends might")
                 print("also be around to bring to the family?")
                 print(BANNER)
-                print("YOUR MISSION:")
-                print("    - Gather at least 5 loot items to be allowed to join the Ratsgiving dinner")
-                print("    - Find and bring at least 1 rat friend to the Ratsgiving celebration")
-                print("    - Get back to the attic without dying and without your rat friend dying")
+                print("\x1B[3m" + "YOUR MISSION:" + "\x1B[0m")
+                print("\x1B[3m" + "    - Gather at least 5 loot items to be allowed to join the Ratsgiving dinner" + "\x1B[0m")
+                print("\x1B[3m" + "    - Find and bring at least 1 rat friend to the Ratsgiving celebration" + "\x1B[0m")
+                print("\x1B[3m" + "    - Get back to the attic without dying and without your rat friend dying" + "\x1B[0m")
                 print(BANNER)
                 input("Hit ENTER to proceed into the Chateau's Entryway...")
                 reset_screen()
-                next = FIRST_FLOOR.next_room
-                discover_entryway()
+
+                ### ENTRYWAY DESCRIPTION AND ACTIONS ###
+                LOCATIONS[1][room]["rats"] = ["Hairless Rat Soron"]
                 print("    Peering out from the hole in the wall into the Entryway of the")
                 print("Chateau, the chandler hanging from the ceiling glimmers bright overhead.")
                 print("Cautiously stepping forward, {} looks around.".format(PLAYER_RAT["name"]))
@@ -135,7 +150,7 @@ def first_floor():
                     print("entryway. She has a duster next to her as well.")
                 elif "Maid Sebastian" in LOCATIONS[1][room]["occupants"]:
                     print("    Maid Sebastian has a plethora of oddly shaped objects in their arms.")
-                    print("They look as if they working on reorganizing the entry table.")
+                    print("They look as if they're working on reorganizing the entry table.")
                 elif "Butler Apoorva" in LOCATIONS[1][room]["occupants"]:
                     print("    Butler Apoorva is waiting in the entryway for... something. {}".format(PLAYER_RAT["name"]))
                     print("does not know what. She is standing pretty stiffly near a wall.")
@@ -150,22 +165,85 @@ def first_floor():
                     print("to get her boots off. Her cheeks are flushed from the cold.")
                 else:
                     print(LOCATIONS[1][room]["occupants"])
+                    occupied = False
 
-                input("Hit ENTER to proceed into the Chateau's Entryway...")
-                
+        action = room_actions(room, occupied)
 
-                ### ENTRYWAY DESCRIPTION AND ACTIONS ###
+        ### While Player is not ready to move on ###
+        while action != 4:
+            ### Look for Rat Friends ###
+            if action == 1:# No rat friends in room
+                if not LOCATIONS[1][room]["rats"]:
+                    print("There are no rat friends to be seen")
+                else:
+                    rat = RAT_FRIENDS[LOCATIONS[1][room]["rats"][0]]
+                    
+                    # Rat friend too hidden
+                    if not hide(rat["Size"], PLAYER_RAT["stats"]["Size"]):
+                        print("{} can hear the familiar sound of one of their rat friends but".format(PLAYER_RAT["name"]))
+                        print("they cannot see them in the room. Try searching again.")
+                    
+                    # Rat friend found
+                    else:
+                        rat["Found"] = True
+
+                        # Found Dumbo Rat Talon
+                        if LOCATIONS[1][room]["rats"][0] == "Dumbo Rat Talon":
+                            print("    A large Dumbo rat came out of his hiding place. {} recognized".format(PLAYER_RAT["name"]))
+                            print('the rat as their friend Talon! "Hey pal," Talon greeted, "how is your')
+                            print('Ratsgiving going?"')
+                            print("    After {} explained their predicament, they asked if Talon wanted to".format(PLAYER_RAT["name"]))
+                            print('come join Ratsgiving with them. "Sure! I would love to!" He enthusiastically')
+                            print('responded. "Just don' + "'t let me get eaten by those mean cats. A big rat like")
+                            print('me is always an easy target.')
+
+                        # Found Hairless Rat Soron
+                        elif LOCATIONS[1][room]["rats"][0] == "Hairless Rat Soron":
+                            print("    A shivering small Hairless rat noticed {} looking at them and".format(PLAYER_RAT["name"]))
+                            print("crawled out to reveal Soron. She hugged her front legs close to her body")
+                            print('as she approached. "Hiya stranger" She greeted. "Long time no see. How' + "'s")
+                            print('the family? What' + "'re y'all doing for Ratsgiving this time?" + '"')
+                            print("    {} explained why they were still roaming the house and invited".format(PLAYER_RAT["name"]))
+                            print('Soron to join them. "Why sure thing, sugar. I' + "'d love to spend Ratsgiving")
+                            print("with y'all again! Just watch where ya going! My vision and balance ain't")
+                            print('too good now."')
+
+                        # Found Satin Rat Gemini
+                        elif LOCATIONS[1][room]["rats"][0] == "Satin Rat Gemini":
+                            pass
+
+                        # Found Tailless Rat Nellin
+                        else:
+                            pass
+                        
+                        rat_name = LOCATIONS[1][room]["rats"][0].split()[2]
+                        
+                        print(BANNER)
+                        print("\x1B[3m" + "{} will now accompany you on the rest of your journey. Beware, if there is".format(rat_name) + "\x1B[0m")
+                        print("\x1B[3m" + "a person or animal in the room you are moving into or out of, {}'s stats".format(rat_name) + "\x1B[0m")
+                        print("\x1B[3m" + "will also be checked against the enemy. Try not to lose your friend." + "\x1B[0m")
+
+            ### Look for Loot ###
+            elif action == 2:
+                pass
+
+            ### Look into the next room ###
+            elif action == 3:  
+                pass
+
+            ### View Map ###
+            elif action == 5:
+                pass
+
+            ### View Inventory ###
+            elif action == 6:
+                pass
+
+            ### Wait for enemies ###
+            else:
+                pass
+
+            action = room_actions(room, occupied)
                 
 
     return 2  # Rat goes up to floor two
-
-### USED TO TEST LOCATION LABEL PLACEMENTS ###
-# reset_map()
-# for room in LOCATIONS[1]:
-#     if room == "Entryway":
-#         discover_entryway()
-#     else:
-#         discover_room(room, FIRST, 1)
-
-#     print_first()
-#     reset_first()
