@@ -18,9 +18,9 @@ from ChateauMap.locations import LOCATIONS
 from Statistics.rat_stats import PLAYER_RAT, RAT_FRIENDS
 from GameScripts.movement import *
 
-FIRST_LABEL = "HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
-SECOND_LABEL = "HAZELWOOD CHATEAU - SECOND FLOOR - LOCATIONS DISCOVERED"
-THIRD_LABEL = "HAZELWOOD CHATEAU - THIRD FLOOR - LOCATIONS DISCOVERED"
+FIRST_LABEL = " HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
+SECOND_LABEL = " HAZELWOOD CHATEAU - SECOND FLOOR - LOCATIONS DISCOVERED"
+THIRD_LABEL = " HAZELWOOD CHATEAU - THIRD FLOOR - LOCATIONS DISCOVERED"
 FIRST = {
 # FIRST will be used as a global dictionary - this will be edited to determine what has been found
     "map": list("""                            _______
@@ -180,7 +180,7 @@ def first_floor():
 
     while room != "Second Floor":
         reset_screen()
-        next = FIRST_FLOOR.next_room
+        next = FIRST_FLOOR.next_room()
         occupied = True
         if room == "Entryway":
             if LOCATIONS[1][room]["found"]:  # If entryway was already found
@@ -383,7 +383,10 @@ def run_actions(floor, room, occupied, next):
 
         ### Look into the next room ###
         elif action == 3:  
-            pass
+            print("Which room would you like to look into? ")
+            for i in range(len(next)):
+                print("    {}: {}".format(i + 1, next[i]))
+                input()
 
         ### View Map ###
         elif action == 5:
