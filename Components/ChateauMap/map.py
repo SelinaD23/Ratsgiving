@@ -49,6 +49,9 @@ class Floor:
         else:
             return self.room.connection4
 
+    def __repr__(self):
+        return self.room.room
+
 
 def first_floor():
     """

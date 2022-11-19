@@ -10,7 +10,7 @@ https://github.com/SelinaD23
 from importlib import reload
 from Components.assets import *
 from Components.GameScripts.start import start
-from Components.end_screen import end_screen, determine_ending
+from Components.end_screen import end_screen, win_ending
 from Components.GameScripts.reset_game import reset_map
 from Components.GameScripts.chateau import first_floor, second_floor, third_floor
 import Components.Statistics.rat_stats as rat_stats
@@ -18,6 +18,7 @@ import Components.Statistics.enemies as enemies
 
 def main():
     play = True
+    loss = False
 
     while play:
         reset_map()
@@ -31,18 +32,17 @@ def main():
             else:
                 floor = third_floor()
 
-        determine_ending()
+            if floor == True or floor == False:
+                loss = True
+                play = floor
 
-        while play not in "yn" and play != "yes" and play != "no":
-            if play != True:
-                print(SELECTION_ERROR)
-            play = input("Would you like to play again [Y/N]? ").lower()
-
-        if play == "n" or play == "no":
-            end_screen()
+        if not loss:
+            play = win_ending()
 
         reload(rat_stats)
         reload(enemies)
+
+    end_screen()
 
 
 if __name__ == "__main__":
