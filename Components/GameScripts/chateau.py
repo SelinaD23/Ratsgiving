@@ -172,9 +172,9 @@ def print_map(floor):
 #     reset_first()
 
 
-def enter_room(floor, room):
+def detect(floor, room):
     """
-    Determines if enemies detect rat upon entering room
+    Determines if enemies detect rat
 
     :return: None if not caught, Bool play again if caught
     """
@@ -184,7 +184,7 @@ def enter_room(floor, room):
             input("    Oh no! {} has been spotted by {}! Hit ENTER to run...".format(PLAYER_RAT["name"], person))
             # If escapes
             if escape(PLAYER_RAT["stats"]["Speed"], ENEMIES[person]["Speed"]):
-                print("Made it away safely!")
+                print("        Made it away safely!")
             else:
                 return loss_ending(room, person, floor)
         else:
@@ -203,19 +203,13 @@ def first_floor():
         reset_screen()
         next = FIRST_FLOOR.next_room()
         occupied = True
-        
-        # See if the enemies see the rat
-        if LOCATIONS[1]["Entryway"]["found"]:
-            if LOCATIONS[1][room]["occupants"]:
-                enter = enter_room(1, room)
-                if enter is not None:
-                    return enter
-            
-            if not LOCATIONS[1][room]["found"]:
-                discover_room(room, FIRST, 1)
 
         if room == "Entryway":
             if LOCATIONS[1][room]["found"]:  # If entryway was already found
+                if LOCATIONS[1][room]["occupants"]:
+                    enter = detect(1, room)
+                    if enter is not None:
+                        return enter
                 print("    Walking back into the Entryway, ")
             else:
                 ### START OF GAME EXPOSITION AND GOALS ###
@@ -276,10 +270,26 @@ def first_floor():
 
         # Rest of Chateau
         else:
-            pass
+            # See if the enemies see the rat
+            if LOCATIONS[1][room]["occupants"]:
+                enter = detect(1, room)
+                if enter is not None:
+                    return enter
+            
+            if not LOCATIONS[1][room]["found"]:
+                discover_room(room, FIRST, 1)
 
-        room = run_actions(1, room, occupied, next)
-                
+        next_room = run_actions(1, room, occupied, next)
+        # See if the enemies see the rat leaving
+        if LOCATIONS[1][room]["occupants"]:
+            print("    As {} prepare to leave, they must make sure the enemies".format(PLAYER_RAT["name"]))
+            print("do not spot them...")
+            enter = detect(1, room)
+            if enter is not None:
+                return enter
+            input("Hit ENTER to proceed into the {}... ".format(next_room))
+        
+        room = next_room
     return 2  # Rat goes up to floor two
 
 
@@ -445,7 +455,7 @@ def run_actions(floor, room, occupied, next):
 
         ### Look into Next Room ###
         elif action == 3:
-                print("Which room would you like to move into? ")
+                print("Which room would you like to look into? ")
 
 
                 for i in range(len(next)):
