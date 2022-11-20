@@ -14,7 +14,7 @@ from assets import *
 from random import random, randint
 
 
-def room_actions(room, occupied):
+def room_actions(room):
     """
     Prints the choices for rat player
 
@@ -28,19 +28,14 @@ def room_actions(room, occupied):
     print("    4: Move into a different room")
     print("    5: View the map")
     print("    6: View your inventory")
-    
-    if occupied:
-        print("    7: Wait for the people to leave the room")
     print(BANNER)
 
     move = input("Please enter your selection: ")
-    if move == "7" and not occupied:
-        move == "8"
-    while not (move.isdigit() and "1" <= move <= "7"):
+
+    while not (move.isdigit() and "1" <= move <= "6"):
         print(SELECTION_ERROR)
         move = input("Please enter your selection: ")
-        if move == "7" and not occupied:
-            move == "8"
+        
     print(BANNER)
     
     return int(move)

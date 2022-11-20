@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-First floor specific encounters
+Runs the entire game
 
 Programmed by: Selina Ding
 https://github.com/SelinaD23
@@ -13,11 +13,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from assets import BANNER
 from random import choice
 from display import reset_screen
-from ChateauMap.map import *
 from ChateauMap.locations import LOCATIONS
 from Components.end_screen import loss_ending
 from Statistics.rat_stats import PLAYER_RAT, RAT_FRIENDS
-from Statistics.enemies import ENEMIES
+from Statistics.enemies import *
 from GameScripts.movement import *
 
 FIRST_LABEL = " HAZELWOOD CHATEAU - FIRST FLOOR - LOCATIONS DISCOVERED"
@@ -67,6 +66,27 @@ THIRD = {
     |       |                      |
     |       |                      |
     |_______|______________________|""")
+}
+
+CONNECTIONS= {
+    (1, "Entryway"): ["Second Floor", "Hallway", "Living Room"],
+    (1, "Bathroom"): ["Hallway"],
+    (1, "Hallway"): ["Entryway", "Bathroom", "Living Room", "Dining Room"],
+    (1, "Living Room"): ["Entryway", "Hallway", "Dining Room"],
+    (1, "Dining Room"): ["Hallway", "Living Room", "Kitchen"],
+    (1, "Kitchen"): ["Dining Room", "Servant Room"],
+    (1, "Servant Room"): ["Kitchen", "Laundry Room"],
+    (1, "Laundry Room"): ["Servant Room"],
+    (2, "Stair Landing"): ["Ground Floor", "Bathroom", "Ms. Hazelwood's Bedroom", "Game Room", "Theater Room", "Third Floor"],
+    (2, "Game Room"): ["Stair Landing"],
+    (2, "Theater Room"): ["Stair Landing"],
+    (2, "Ms. Hazelwood's Bedroom"): ["Stair Landing", "Bathroom"],
+    (2, "Bathroom"): ["Stair Landing", "Ms. Hazelwood's Bedroom"],
+    (3, "Stair Landing"): ["Second Floor", "Office", "Master Bedroom"],
+    (3, "Office"): ["Stair Landing"],
+    (3, "Master Bedroom"): ["Stair Landing", "Ensuite Bathroom"],
+    (3, "Ensuite Bathroom"): ["Master Bedroom", "Rat Hole"],
+    (3, "Rat Hole"): ["Ensuite Bathroom"]
 }
 
 
@@ -176,6 +196,8 @@ def detect(floor, room):
     """
     Determines if enemies detect rat
 
+    :param floor: int - current floor
+    :param room: str - current room
     :return: None if not caught, Bool play again if caught
     """
     for person in LOCATIONS[floor][room]["occupants"]:
@@ -190,6 +212,33 @@ def detect(floor, room):
         else:
             print("    {} did not see {}!".format(person, PLAYER_RAT["name"]))
 
+
+def print_enemies(floor, room):
+    """
+    Prints the enemies in the room
+
+    :param floor: int - current floor
+    :param room: str - current room
+    :return: bool - if enemies are in the room
+    """
+    # If the occupants list is empty
+    if not LOCATIONS[floor][room]["occupants"]:
+        print("    There is no one currently in the {}".format(room))
+        return False
+
+    # Printing enemies in room
+    if len(LOCATIONS[floor][room]["occupants"]) > 1:
+        if len(LOCATIONS[floor][room]["occupants"]) > 2: 
+            for i in range(len(LOCATIONS[floor][room]["occupants"]) - 1):
+                print(LOCATIONS[floor][room]["occupants"][i] + ",", sep=" ")
+        else:
+            print(LOCATIONS[floor][room]["occupants"][0], sep=" ")
+        print("and {} are in the {}".format(LOCATIONS[floor][room]["occupants"][-1], room))
+    else:
+        print("{} is in the {}".format(LOCATIONS[floor][room]["occupants"][0], room))
+    
+    return True
+
                     
 def first_floor():
     """
@@ -201,16 +250,20 @@ def first_floor():
 
     while room != "Second Floor":
         reset_screen()
-        next = FIRST_FLOOR.next_room()
+        next = CONNECTIONS[(1, room)]
         occupied = True
 
         if room == "Entryway":
             if LOCATIONS[1][room]["found"]:  # If entryway was already found
+                # See if enemies sees Rat entering
                 if LOCATIONS[1][room]["occupants"]:
+                    print("Entering the Entryway...")
                     enter = detect(1, room)
-                    if enter is not None:
+                    if isinstance(enter, bool):
                         return enter
-                print("    Walking back into the Entryway, ")
+                    print(BANNER)
+                print("    Walking back into the Entryway, the storm outside is still going.")
+                print("Best hurry up and get up to the attic before Ratsgiving is over.")
             else:
                 ### START OF GAME EXPOSITION AND GOALS ###
                 print("    It's a dark and spooky night as Rat {} wakes up from a deep slumber".format(PLAYER_RAT["name"]))
@@ -244,52 +297,31 @@ def first_floor():
                 print("    Peering out from the hole in the wall into the Entryway of the")
                 print("Chateau, the chandler hanging from the ceiling glimmers bright overhead.")
                 print("Cautiously stepping forward, {} looks around.".format(PLAYER_RAT["name"]))
-                
-            if "Maid Alexander" in LOCATIONS[1][room]["occupants"]:
-                print("    Maid Alexander stood in the entryway, tiding up the entry console and")
-                print("table. He looks quite focused on his job.")
-            elif "Maid Selina" in LOCATIONS[1][room]["occupants"]:
-                print("    Maid Selina is polishing the mirror hanging on one of the walls in the")
-                print("entryway. She has a duster next to her as well.")
-            elif "Maid Sebastian" in LOCATIONS[1][room]["occupants"]:
-                print("    Maid Sebastian has a plethora of oddly shaped objects in their arms.")
-                print("They look as if they're working on reorganizing the entry table.")
-            elif "Butler Apoorva" in LOCATIONS[1][room]["occupants"]:
-                print("    Butler Apoorva is waiting in the entryway for... something. {}".format(PLAYER_RAT["name"]))
-                print("does not know what. She is standing pretty stiffly near a wall.")
-            elif "Mr. Hazelwood" in LOCATIONS[1][room]["occupants"]:
-                print("    Mr. Hazelwood looks outside at the gloomy day with a moodly look")
-                print("on his face.")
-            elif "Mrs. Hazelwood" in LOCATIONS[1][room]["occupants"]:
-                print("    Mrs. Hazelwood is looking through the entryway's closet.")
-            elif "Ms. Hazelwood" in LOCATIONS[1][room]["occupants"]:
-                print("    Little Ms. Hazelwood is sat on the floor of the entryway playing")
-                print("with a few of her toys.")
-            else:
-                occupied = False
 
         # Rest of Chateau
         else:
             # See if the enemies see the rat
             if LOCATIONS[1][room]["occupants"]:
+                print("Entering the {}...".format(room))
                 enter = detect(1, room)
-                if enter is not None:
+                if isinstance(enter, bool):
                     return enter
+                print(BANNER)
             
+            # Discover the room
             if not LOCATIONS[1][room]["found"]:
                 discover_room(room, FIRST, 1)
 
-        next_room = run_actions(1, room, occupied, next)
-        # See if the enemies see the rat leaving
-        if LOCATIONS[1][room]["occupants"]:
-            print("    As {} prepare to leave, they must make sure the enemies".format(PLAYER_RAT["name"]))
-            print("do not spot them...")
-            enter = detect(1, room)
-            if enter is not None:
-                return enter
-            input("Hit ENTER to proceed into the {}... ".format(next_room))
-        
-        room = next_room
+        # Prints if enemies are in the room
+        occupied = print_enemies(1, room)
+
+        # Runs options until Rat moves
+        room = run_actions(1, room, occupied, next)
+
+        # If rat gets caught trying to leave the room
+        if isinstance(room, bool):
+            return room
+
     return 2  # Rat goes up to floor two
 
 
@@ -318,16 +350,7 @@ def run_actions(floor, room, occupied, next):
     :return: str room that Rat goes into 
     """
 
-    action = room_actions(room, occupied)
-    if room == "Entryway":
-        next.append("Second Floor")
-
-    elif room == "Stair Landing":
-        if floor == 2:
-            next.append("Ground Floor")
-            next.append("Third Floor")
-        else:
-            next.append("Second Floor")
+    action = room_actions(room)
             
     ### While Player is not ready to move on ###
     while action != 4:
@@ -469,42 +492,34 @@ def run_actions(floor, room, occupied, next):
                 room_choice = int(room_choice) - 1
 
                 # Printing occupants
-                if next[room_choice] == "Second Floor":
-                    occupants = LOCATIONS[2]["Stair Landing"]["occupants"]
-                elif next[room_choice] == "Ground Floor":
-                    occupants = LOCATIONS[1]["Entryway"]["occupants"]
+                if next[room_choice] == "Ground Floor":
+                    next_floor = 1
+                    next_room = "Entryway"
+                elif next[room_choice] == "Second Floor":
+                    next_floor = 2
+                    next_room = "Stair Landing"
                 elif next[room_choice] == "Third Floor":
-                    occupants = LOCATIONS[3]["Stair Landing"]["occupants"]
+                    next_floor = 3
+                    next_room = "Stair Landing"
                 else:
-                    occupants = LOCATIONS[floor][next[room_choice]]["occupants"]
+                    next_floor = floor
+                    next_room = next[room_choice]
 
+                print_enemies(next_floor, next_room)
                 
-                in_on = "on" if "Floor" in next[room_choice] else "in"
-                if occupants:
-                    if len(occupants) == 1:
-                        print("{} is {} the {}".format(occupants[0], in_on, next[room_choice]))
-                    else:
-                        print("The following household members and/or staff are {} the {}".format(in_on, next[room_choice]))
-                        [print("    {}".format(occupant)) for occupant in occupants]
-                    
-
         ### View Map ###
         elif action == 5:
             print_map(floor)
                 
         ### View Inventory ###
-        elif action == 6:
+        else:
             inventory(PLAYER_RAT["loot"])
 
-        ### Wait for enemies ###
-        else:
-            pass
+        action = room_actions(room)
 
-        action = room_actions(room, occupied)
-
+    # Moving rooms
     print("Which room would you like to move into? ")
     
-
     for i in range(len(next)):
         print("    {}: {}".format(i + 1, next[i]))
     
@@ -515,17 +530,121 @@ def run_actions(floor, room, occupied, next):
 
     room_choice = int(room_choice) - 1
 
-    if floor == 1:
-        if next[room_choice] != "Second Floor":
-            global FIRST_FLOOR
-            FIRST_FLOOR = Floor(FIRST_FLOOR.move(next[room_choice]))
-    elif floor == 2:
-        if next[room_choice] != "Ground Floor" and next[room_choice] != "Third Floor":
-            global SECOND_FLOOR 
-            SECOND_FLOOR = Floor(SECOND_FLOOR.move(next[room_choice]))
+    # Sets up for the next room 
+    if next[room_choice] == "Ground Floor":
+        next_floor = 1
+        next_room = "Entryway"
+    elif next[room_choice] == "Second Floor":
+        next_floor = 2
+        next_room = "Stair Landing"
+    elif next[room_choice] == "Third Floor":
+        next_floor = 3
+        next_room = "Stair Landing"
     else:
-        if next[room_choice] != "Second Floor":
-            global THIRD_FLOOR 
-            THIRD_FLOOR = Floor(THIRD_FLOOR.move(next[room_choice]))
+        next_floor = floor
+        next_room = next[room_choice]
+
+    # Move enemies
+    floors = ["Ground Floor", "Second Floor", "Third Floor"]
+    enter = False
+
+    print(BANNER)
+
+    for character in ENEMIES:
+
+        # Enemies have a 50% chance of moving
+        if random() < .5:
+            continue
+
+        current_floor = ENEMIES[character]["Location"][0]
+        current_room = ENEMIES[character]["Location"][1]
+        next_move = CONNECTIONS[(current_floor,current_room)]
+
+        if (current_floor == floor and current_room == room) or (current_floor == next_floor and current_room == next_room):
+            print("    {} moves out of the {}".format(character, current_room))
+            enter = True
+
+        # Move Maids
+        if "Maid" in character:
+            current_room = choice([connection for connection in next_move if current_room in MAID_LOCATIONS[current_floor] or current_room in floors])
+            if current_room in floors:
+                if current_room == "Ground Floor":
+                    current_room = "Entryway"
+                    current_floor = 1
+                elif current_room == "Second Floor":
+                    current_room = "Stair Landing"
+                    current_floor = 2
+                else:
+                    current_room = "Stair Landing"
+                    current_floor = 3
+            assign_room(current_floor, current_room, character)
+
+        # Move Chefs
+        elif "Chef" in character:
+            current_room = choice([connection for connection in next_move if current_room in CHEF_LOCATIONS[current_floor]])
+            assign_room(current_floor, current_room, character)
+
+        # Move Butler
+        elif "Butler" in character:
+            current_room = choice([connection for connection in next_move if current_room in BUTLER_LOCATIONS[current_floor] or current_room in floors])
+            if current_room in floors:
+                if current_room == "Ground Floor":
+                    current_room = "Entryway"
+                    current_floor = 1
+                elif current_room == "Second Floor":
+                    current_room = "Stair Landing"
+                    current_floor = 2
+                else:
+                    current_room = "Stair Landing"
+                    current_floor = 3
+            assign_room(current_floor, current_room, character)
+
+        # Move Family
+        elif "Hazelwood" in character:
+            current_room = choice([connection for connection in next_move if current_room in FAMILY_LOCATIONS[current_floor] or current_room in floors])
+            if current_room in floors:
+                if current_room == "Ground Floor":
+                    current_room = "Entryway"
+                    current_floor = 1
+                elif current_room == "Second Floor":
+                    current_room = "Stair Landing"
+                    current_floor = 2
+                else:
+                    current_room = "Stair Landing"
+                    current_floor = 3
+            assign_room(current_floor, current_room, character)
+
+        # Move Cats
+        else:
+            current_room = choice([connection for connection in next_move if current_room in CAT_LOCATIONS[current_floor] or current_room in floors])
+            if current_room in floors:
+                if current_room == "Ground Floor":
+                    current_room = "Entryway"
+                    current_floor = 1
+                elif current_room == "Second Floor":
+                    current_room = "Stair Landing"
+                    current_floor = 2
+                else:
+                    current_room = "Stair Landing"
+                    current_floor = 3
+            assign_room(current_floor, current_room, character)
+
+        if (current_floor == floor and current_room == room) or (current_floor == next_floor and current_room == next_room):
+            print("    {} moves into the {}".format(character, current_room))
+            enter = True
+
+    # User can see if enemies moved into or out of their current room and the room they are moving into
+    if enter: 
+        print(BANNER)  
+        input("Hit ENTER to leave... ")
+
+    # See if the enemies see the rat leaving
+    if LOCATIONS[floor][room]["occupants"]:
+        print("    As {} prepare to leave, they must make sure the enemies".format(PLAYER_RAT["name"]))
+        print("do not spot them...")
+        enter = detect(floor, room)
+        if isinstance(enter, bool):
+            return enter
+        input("Hit ENTER to proceed into the {}... ".format(next_room))
     
     return next[room_choice]

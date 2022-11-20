@@ -103,13 +103,13 @@ def assign_room(floor, room, person):
     :return: None
     """ 
     if not ENEMIES[person]["Location"]:  # If the person was nowhere previously
-        ENEMIES[person]["Location"] = [floor, room]
+        ENEMIES[person]["Location"] = (floor, room)
         LOCATIONS[floor][room]["occupants"].append(person)
     
     else:  # If person was in a room previously
         occupant_index = LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]]["occupants"].index(person)
         LOCATIONS[ENEMIES[person]["Location"][0]][ENEMIES[person]["Location"][1]]["occupants"].pop(occupant_index)
-        ENEMIES[person]["Location"] = [floor, room]
+        ENEMIES[person]["Location"] = (floor, room)
         LOCATIONS[floor][room]["occupants"].append(person)
 
 
